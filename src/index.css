@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 35 25% 97%;
+    --foreground: 25 35% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 25 35% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 35% 15%;
+
+    --primary: 18 85% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 18 85% 52%;
+
+    --secondary: 142 60% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 142 60% 40%;
+
+    --muted: 35 15% 90%;
+    --muted-foreground: 25 15% 45%;
+
+    --accent: 40 95% 65%;
+    --accent-foreground: 25 35% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 18 85% 58%;
+
+    --radius: 0.75rem;
+
+    --gradient-warm: linear-gradient(135deg, hsl(18 85% 58%) 0%, hsl(40 95% 65%) 100%);
+    --gradient-fresh: linear-gradient(135deg, hsl(142 60% 45%) 0%, hsl(160 55% 50%) 100%);
+    --shadow-soft: 0 2px 8px -2px hsl(25 35% 15% / 0.1);
+    --shadow-card: 0 4px 16px -4px hsl(25 35% 15% / 0.12);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 25 25% 8%;
+    --foreground: 35 15% 95%;
+
+    --card: 25 20% 12%;
+    --card-foreground: 35 15% 95%;
+
+    --popover: 25 20% 12%;
+    --popover-foreground: 35 15% 95%;
+
+    --primary: 18 85% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 18 85% 52%;
+
+    --secondary: 142 55% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 142 55% 40%;
+
+    --muted: 25 15% 18%;
+    --muted-foreground: 35 10% 60%;
+
+    --accent: 40 90% 60%;
+    --accent-foreground: 35 15% 95%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 15% 22%;
+    --input: 25 15% 22%;
+    --ring: 18 85% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
