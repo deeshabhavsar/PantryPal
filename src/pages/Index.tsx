@@ -4,6 +4,8 @@ import { RecipeCard } from "@/components/RecipeCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import bgImage from "@/components/BG_IMG.png";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 
 
 interface Recipe {
@@ -22,6 +24,7 @@ interface Recipe {
 const Index = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(0);
 
   const handleGenerateRecipe = async (formData: {
     ingredients: string[];
@@ -31,6 +34,7 @@ const Index = () => {
   }) => {
     setIsLoading(true);
     setRecipes([]);
+    setSelectedRecipeIndex(0);
 
     try {
       const { data, error } = await supabase.functions.invoke("generate-recipe", {
@@ -69,20 +73,18 @@ const Index = () => {
             backgroundImage: `url(${bgImage})`,
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/80" />
+          <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-background/30 to-background/30" />
         </div>
 
         <div className="relative container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Turn Your Ingredients Into
-              <span className="block bg-gradient-warm bg-clip-text text-transparent mt-2">
+              Turn Your Ingredients Into <br />
                 Delicious Recipes
-              </span>
             </h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-[#8B5E3C] max-w-2xl mx-auto">
               Tell us what you have in your kitchen, and we'll create personalized recipes
               tailored to your time, preferences, and dietary needs.
             </p>
@@ -105,11 +107,23 @@ const Index = () => {
                   Choose from {recipes.length} delicious recipes created just for you
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recipes.map((recipe, index) => (
-                  <RecipeCard key={index} recipe={recipe} />
-                ))}
-              </div>
+              <div className="space-y-6">
+              <Select value={selectedRecipeIndex.toString()} onValueChange={(value) => setSelectedRecipeIndex(parseInt(value))}>
+                <SelectTrigger className="w-full max-w-md mx-auto">
+                  <SelectValue placeholder="Select a recipe" />
+                </SelectTrigger>
+                <SelectContent>
+                  {recipes.map((recipe, index) => (
+                    <SelectItem key={index} value={index.toString()}>
+                      {recipe.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              <RecipeCard recipe={recipes[selectedRecipeIndex]} />
+            </div>
+
             </div>
           </div>
         </section>

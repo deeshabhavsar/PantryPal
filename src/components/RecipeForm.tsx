@@ -17,9 +17,9 @@ interface RecipeFormProps {
   isLoading: boolean;
 }
 
-const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"];
-const COOKING_TIMES = ["15 minutes", "30 minutes", "45 minutes", "1 hour", "1+ hours"];
-const DIETARY_OPTIONS = ["Vegan", "Vegetarian", "Gluten-free", "Dairy-free", "Low-carb", "Keto"];
+const MEAL_TYPES = ["Breakfast", "Brunch", "Lunch", "Dinner", "Snack", "Dessert", "Midnight Snack"];
+const COOKING_TIMES = ["5 minutes", "10 minutes","15 minutes", "30 minutes", "45 minutes", "1 hour", "1+ hours"];
+const DIETARY_OPTIONS = ["Vegan", "Vegetarian", "Gluten-free", "Dairy-free", "Low-carb", "Keto", "Diabetic"];
 
 export const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
   const [ingredients, setIngredients] = useState<string[]>([]);

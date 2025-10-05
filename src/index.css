@@ -21,9 +21,9 @@ All colors MUST be HSL.
     --primary-foreground: 0 0% 100%;
     --primary-hover: 18 85% 52%;
 
-    --secondary: 142 60% 45%;
+    --secondary: 26 55% 47%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-hover: 142 60% 40%;
+    --secondary-hover: 26 45% 46%;
 
     --muted: 35 15% 90%;
     --muted-foreground: 25 15% 45%;
@@ -36,12 +36,11 @@ All colors MUST be HSL.
 
     --border: 35 20% 85%;
     --input: 35 20% 85%;
-    --ring: 18 85% 58%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-warm: linear-gradient(135deg, #2E8B57 0%, #A8E063 100%); /* from primary green to accent lime */
+    --gradient-warm: linear-gradient(135deg, #368559 0%, #83d9a8 100%); /* from primary green to accent lime */
     --gradient-fresh: linear-gradient(135deg, #5DADE2 0%, #A8E063 100%); /* from sky blue to accent lime */
 
     /* Shadows */
