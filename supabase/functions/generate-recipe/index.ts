@@ -28,47 +28,52 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const systemPrompt = `You are an expert chef and recipe creator. Generate personalized recipe suggestions based on the user's available ingredients, time, and preferences. 
+    const systemPrompt = `You are an expert chef and recipe creator. Generate 3 personalized recipe suggestions based on the user's available ingredients, time, and preferences. 
 
-Your response should be a complete, detailed recipe in JSON format with this structure:
+Your response should be an array of 3 complete, detailed recipes in JSON format with this structure:
 {
-  "title": "Recipe Name",
-  "description": "Brief appealing description",
-  "cookingTime": "actual time in minutes",
-  "difficulty": "Easy/Medium/Hard",
-  "servings": number,
-  "ingredients": [
-    { "item": "ingredient name", "amount": "quantity", "optional": false }
-  ],
-  "optionalAddons": [
-    { "item": "addon name", "benefit": "why it improves the dish" }
-  ],
-  "instructions": [
-    "Step 1 instruction",
-    "Step 2 instruction"
-  ],
-  "tips": [
-    "Helpful tip 1",
-    "Helpful tip 2"
-  ],
-  "substitutions": [
-    { "original": "ingredient", "substitute": "alternative", "note": "why this works" }
+  "recipes": [
+    {
+      "title": "Recipe Name",
+      "description": "Brief appealing description",
+      "cookingTime": "actual time in minutes",
+      "difficulty": "Easy/Medium/Hard",
+      "servings": number,
+      "ingredients": [
+        { "item": "ingredient name", "amount": "quantity", "optional": false }
+      ],
+      "optionalAddons": [
+        { "item": "addon name", "benefit": "why it improves the dish" }
+      ],
+      "instructions": [
+        "Step 1 instruction",
+        "Step 2 instruction"
+      ],
+      "tips": [
+        "Helpful tip 1",
+        "Helpful tip 2"
+      ],
+      "substitutions": [
+        { "original": "ingredient", "substitute": "alternative", "note": "why this works" }
+      ]
+    }
   ]
 }
 
 Make recipes creative, practical, and delicious. Focus on using the provided ingredients while suggesting realistic add-ons.`;
 
-    const userPrompt = `Create a ${mealType} recipe with these details:
+    const userPrompt = `Create 3 different ${mealType} recipes with these details:
 - Available ingredients: ${ingredients.join(', ')}
 - Maximum cooking time: ${cookingTime}
 - Dietary preferences: ${dietaryPreferences.length > 0 ? dietaryPreferences.join(', ') : 'None'}
 
-Generate a complete recipe that:
-1. Uses most of the available ingredients
+Generate 3 complete, varied recipes that:
+1. Use most of the available ingredients
 2. Can be prepared within the time limit
-3. Respects dietary restrictions
-4. Includes optional add-ons to enhance the dish
-5. Provides clear step-by-step instructions`;
+3. Respect dietary restrictions
+4. Include optional add-ons to enhance the dish
+5. Provide clear step-by-step instructions
+6. Are different from each other (different cooking methods, flavors, or styles)`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -111,10 +116,10 @@ Generate a complete recipe that:
     const recipeContent = data.choices[0].message.content;
     const recipe = JSON.parse(recipeContent);
 
-    console.log('Recipe generated successfully');
+    console.log('Recipes generated successfully');
 
     return new Response(
-      JSON.stringify({ recipe }),
+      JSON.stringify({ recipes: result.recipes }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 

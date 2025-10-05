@@ -20,7 +20,7 @@ interface Recipe {
 }
 
 const Index = () => {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerateRecipe = async (formData: {
@@ -30,7 +30,7 @@ const Index = () => {
     dietaryPreferences: string[];
   }) => {
     setIsLoading(true);
-    setRecipe(null);
+    setRecipes([]);
 
     try {
       const { data, error } = await supabase.functions.invoke("generate-recipe", {
@@ -43,9 +43,9 @@ const Index = () => {
         return;
       }
 
-      if (data?.recipe) {
-        setRecipe(data.recipe);
-        toast.success("Recipe generated successfully!");
+      if (data?.recipes && Array.isArray(data.recipes)) {
+        setRecipes(data.recipes);
+        toast.success("Recipes generated successfully!");
         // Scroll to recipe
         setTimeout(() => {
           document.getElementById("recipe-result")?.scrollIntoView({ behavior: "smooth" });
@@ -99,24 +99,29 @@ const Index = () => {
       </section>
 
       {/* Recipe Result Section */}
-      {recipe && (
+      {recipes.length > 0 && (
         <section id="recipe-result" className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-2">Your Recipe is Ready!</h2>
+                <h2 className="text-3xl font-bold mb-2">Your Recipes are Ready!</h2>
                 <p className="text-muted-foreground">
-                  Here's a delicious recipe created just for you
+                  Choose from {recipes.length} delicious recipes created just for you
                 </p>
               </div>
-              <RecipeCard recipe={recipe} />
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {recipes.map((recipe, index) => (
+                  <RecipeCard key={index} recipe={recipe} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
       )}
 
+
       {/* Features Section */}
-      {!recipe && (
+      {recipes.length == 0 && (
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
